@@ -1,19 +1,14 @@
 package com.cmmakerclub.iot.esptouch.demo_activity;
 
-import java.util.List;
-
-import com.cmmakerclub.iot.esptouch.EsptouchTask;
-import com.cmmakerclub.iot.esptouch.IEsptouchResult;
-import com.cmmakerclub.iot.esptouch.IEsptouchTask;
-import com.cmmakerclub.iot.esptouch.task.__IEsptouchTask;
-import com.cmmakerclub.iot_esptouch_demo.R;
-
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +20,15 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class EsptouchDemoActivity extends Activity implements OnClickListener {
+import com.cmmakerclub.iot.esptouch.EsptouchTask;
+import com.cmmakerclub.iot.esptouch.IEsptouchResult;
+import com.cmmakerclub.iot.esptouch.IEsptouchTask;
+import com.cmmakerclub.iot.esptouch.task.__IEsptouchTask;
+import com.cmmakerclub.iot_esptouch_demo.R;
+
+import java.util.List;
+
+public class EsptouchDemoActivity extends AppCompatActivity implements OnClickListener {
 
 	private static final String TAG = "EsptouchDemoActivity";
 
@@ -40,6 +43,24 @@ public class EsptouchDemoActivity extends Activity implements OnClickListener {
 	private EspWifiAdminSimple mWifiAdmin;
 	
 	private Spinner mSpinnerTaskCount;
+
+    CoordinatorLayout rootLayout;
+    DrawerLayout drawerLayout;
+	Toolbar toolbar;
+
+	protected void initToolbar() {
+//		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+	}
+
+    protected void initInstances() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+		rootLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
+
+//		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
