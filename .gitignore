@@ -3,3 +3,11 @@ gen/
 proguard/
 .DS_Store
 project.properties
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/app/build
+/captures
+
