@@ -87,7 +87,7 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
 			spinnerItemsInteger[i] = spinnerItemsInt[i];
 		}
 		ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,
-				android.R.layout.simple_list_item_1, spinnerItemsInteger);
+				R.layout.spinner_item, spinnerItemsInteger);
 		mSpinnerTaskCount.setAdapter(adapter);
 		mSpinnerTaskCount.setSelection(1);
 	}

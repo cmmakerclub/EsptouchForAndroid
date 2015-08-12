@@ -36,8 +36,9 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="15dp"
                     android:textStyle="bold"
-                    android:text="CMMC SmartConfig"
+                    android:text="ESP8266 SmartConfig"
                     android:textSize="22sp"
+                    android:textColor="@color/text_white"
                     android:layout_gravity="center_horizontal"
                     />
 
@@ -56,6 +57,7 @@
                         android:layout_height="match_parent"
                         android:textStyle="bold"
                         android:text="@string/tvApSsidTitle"
+                        android:textColor="@color/text_white"
                         android:layout_marginRight="10dp"/>
 
                     <TextView
@@ -64,7 +66,8 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:singleLine="true"
-                        android:paddingBottom="10dp">
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/text_white">
                     </TextView>
 
                 </LinearLayout>
@@ -89,8 +92,10 @@
                             android:inputType="text"
                             android:singleLine="true"
                             android:text=""
+                            android:textColor="@color/text_white"
                             android:hint="@string/tvPasswordTitle"
-                            tools:ignore="TextFields" >
+                            tools:ignore="TextFields"
+                            >
                         </EditText>
 
                     </android.support.design.widget.TextInputLayout>
@@ -102,7 +107,7 @@
                     android:layout_height="1dp"
                     android:background="@color/border_blue" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -115,22 +120,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/switchIsSsidHiddenTitle"
+                        android:textColor="@color/text_white"
                         android:paddingRight="10dp"
                         android:textStyle="bold"/>
 
                     <Switch
+                        android:visibility="gone"
                         android:id="@+id/switchIsSsidHidden"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         />
-                </LinearLayout>
+                    <android.support.v7.widget.SwitchCompat
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:showText="false" />
+                </RelativeLayout>
 
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
                     android:background="@color/border_blue" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -144,26 +156,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/spinnerTaskResultCountTitle"
+                        android:textColor="@color/text_white"
                         android:paddingRight="10dp"
                         android:textStyle="bold"/>
 
                     <Spinner
+                        style="?android:attr/spinnerDropDownItemStyle"
                         android:id="@+id/spinnerTaskResultCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_version"
-                    android:textColor="@color/border_blue"
-                    android:textSize="12sp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"/>
+                        android:layout_alignParentRight="true"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
 
             </LinearLayout>
 
