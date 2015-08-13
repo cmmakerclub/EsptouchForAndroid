@@ -13,4 +13,5 @@ local.properties
 app/build
 captures
 build
+app/app.iml
 
