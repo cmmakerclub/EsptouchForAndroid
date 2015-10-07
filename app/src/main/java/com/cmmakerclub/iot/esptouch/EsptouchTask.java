@@ -1,19 +1,18 @@
 package com.cmmakerclub.iot.esptouch;
 
+import java.util.List;
+
 import android.content.Context;
 
 import com.cmmakerclub.iot.esptouch.task.EsptouchTaskParameter;
 import com.cmmakerclub.iot.esptouch.task.IEsptouchTaskParameter;
 import com.cmmakerclub.iot.esptouch.task.__EsptouchTask;
 
-import java.util.List;
-
-
 public class EsptouchTask implements IEsptouchTask {
 
 	public __EsptouchTask _mEsptouchTask;
 	private IEsptouchTaskParameter _mParameter;
-	
+
 	/**
 	 * Constructor of EsptouchTask
 	 * 
@@ -28,34 +27,37 @@ public class EsptouchTask implements IEsptouchTask {
 	 * @param context
 	 *            the Context of the Application
 	 */
-	public EsptouchTask(String apSsid, String apBssid, String apPassword,boolean isSsidHidden, Context context) {
+	public EsptouchTask(String apSsid, String apBssid, String apPassword,
+			boolean isSsidHidden, Context context) {
 		_mParameter = new EsptouchTaskParameter();
-		_mEsptouchTask = new __EsptouchTask(apSsid, apBssid, apPassword, context, _mParameter, isSsidHidden);
-	}
-	
-	/**
-	 * Constructor of EsptouchTask
-	 * 
-	 * @param apSsid
-	 *            the Ap's ssid
-	 * @param apBssid
-	 *            the Ap's bssid
-	 * @param apPassword
-	 *            the Ap's password
-	 * @param isSsidHidden
-	 *            whether the Ap's ssid is hidden
-	 * @param timeoutMillisecond(it should be >= 10000+8000)
-	 * 			  millisecond of total timeout
-	 * @param context
-	 *            the Context of the Application
-	 */
-	public EsptouchTask(String apSsid, String apBssid, String apPassword,boolean isSsidHidden,int timeoutMillisecond, Context context) {
-		_mParameter = new EsptouchTaskParameter();
-		_mParameter.setWaitUdpTotalMillisecond(timeoutMillisecond);
-		_mEsptouchTask = new __EsptouchTask(apSsid, apBssid, apPassword, context, _mParameter, isSsidHidden);
+		_mEsptouchTask = new __EsptouchTask(apSsid, apBssid, apPassword,
+				context, _mParameter, isSsidHidden);
 	}
 
-	
+	/**
+	 * Constructor of EsptouchTask
+	 * 
+	 * @param apSsid
+	 *            the Ap's ssid
+	 * @param apBssid
+	 *            the Ap's bssid
+	 * @param apPassword
+	 *            the Ap's password
+	 * @param isSsidHidden
+	 *            whether the Ap's ssid is hidden
+	 * @param timeoutMillisecond
+	 *            (it should be >= 15000+6000) millisecond of total timeout
+	 * @param context
+	 *            the Context of the Application
+	 */
+	public EsptouchTask(String apSsid, String apBssid, String apPassword,
+			boolean isSsidHidden, int timeoutMillisecond, Context context) {
+		_mParameter = new EsptouchTaskParameter();
+		_mParameter.setWaitUdpTotalMillisecond(timeoutMillisecond);
+		_mEsptouchTask = new __EsptouchTask(apSsid, apBssid, apPassword,
+				context, _mParameter, isSsidHidden);
+	}
+
 	@Override
 	public void interrupt() {
 		_mEsptouchTask.interrupt();
@@ -78,5 +80,10 @@ public class EsptouchTask implements IEsptouchTask {
 			expectTaskResultCount = Integer.MAX_VALUE;
 		}
 		return _mEsptouchTask.executeForResults(expectTaskResultCount);
+	}
+
+	@Override
+	public void setEsptouchListener(IEsptouchListener esptouchListener) {
+		_mEsptouchTask.setEsptouchListener(esptouchListener);
 	}
 }

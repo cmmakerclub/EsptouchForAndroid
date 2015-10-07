@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_app">
 
     <android.support.design.widget.CoordinatorLayout
@@ -138,11 +139,13 @@
                 </RelativeLayout>
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
                     android:background="@color/border_blue" />
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -170,6 +173,7 @@
 
             </LinearLayout>
 
+
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="match_parent"
@@ -178,9 +182,17 @@
                 android:background="@color/btn_blue"
                 android:textColor="@color/text_white"
                 android:layout_alignParentBottom="true" />
+
+            <com.google.android.gms.ads.AdView
+                android:layout_above="@id/btnConfirm"
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id">
+            </com.google.android.gms.ads.AdView>
         </RelativeLayout>
-
-
 
     </android.support.design.widget.CoordinatorLayout>
 

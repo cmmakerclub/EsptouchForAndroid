@@ -1,4 +1,4 @@
-package com.cmmakerclub.iot.esptouch.demo_activity;
+package com.cmmakerclub.iot.esptouch.activity;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

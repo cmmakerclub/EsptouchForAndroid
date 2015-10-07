@@ -1,4 +1,4 @@
-package com.cmmakerclub.iot.esptouch.demo_activity;
+package com.cmmakerclub.iot.esptouch.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -23,14 +23,21 @@ import android.widget.TextView;
 import com.cmmakerclub.iot.esptouch.EsptouchTask;
 import com.cmmakerclub.iot.esptouch.IEsptouchResult;
 import com.cmmakerclub.iot.esptouch.IEsptouchTask;
+import com.cmmakerclub.iot.esptouch.R;
 import com.cmmakerclub.iot.esptouch.task.__IEsptouchTask;
-import com.cmmakerclub.iot_esptouch_demo.R;
+import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.List;
 
-public class EsptouchDemoActivity extends AppCompatActivity implements OnClickListener {
+import io.fabric.sdk.android.Fabric;
 
-	private static final String TAG = "EsptouchDemoActivity";
+public class MainActivity extends AppCompatActivity implements OnClickListener {
+
+	public static final String TAG = MainActivity.class.getSimpleName();
+
 
 	private TextView mTvApSsid;
 
@@ -47,6 +54,8 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
     CoordinatorLayout rootLayout;
     DrawerLayout drawerLayout;
 	Toolbar toolbar;
+
+	InterstitialAd mInterstitialAd;
 
 	protected void initToolbar() {
 //		toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -65,7 +74,8 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.esptouch_demo_activity);
+		Fabric.with(this, new Crashlytics());
+		setContentView(R.layout.main_activity);
 
 		mWifiAdmin = new EspWifiAdminSimple(this);
 		mTvApSsid = (TextView) findViewById(R.id.tvApSssidConnected);
@@ -74,6 +84,23 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
 		mSwitchIsSsidHidden = (Switch) findViewById(R.id.switchIsSsidHidden);
 		mBtnConfirm.setOnClickListener(this);
 		initSpinner();
+
+
+		AdView mAdView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		mAdView.loadAd(adRequest);
+//		mInterstitialAd = new InterstitialAd(this);
+//		mInterstitialAd.setAdUnitId(getResources().getString(R.id.));
+//
+//		mInterstitialAd.setAdListener(new AdListener() {
+//			@Override
+//			public void onAdClosed() {
+//				requestNewInterstitial();
+//				beginPlayingGame();
+//			}
+//		});
+//
+//		requestNewInterstitial();
 	}
 	
 	private void initSpinner()
@@ -146,7 +173,7 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
 
 		@Override
 		protected void onPreExecute() {
-			mProgressDialog = new ProgressDialog(EsptouchDemoActivity.this);
+			mProgressDialog = new ProgressDialog(MainActivity.this);
 			mProgressDialog
 					.setMessage("Esptouch is configuring, please wait for a moment...");
 			mProgressDialog.setCanceledOnTouchOutside(false);
@@ -186,7 +213,7 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
 					isSsidHidden = true;
 				}
 				mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword,
-						isSsidHidden, EsptouchDemoActivity.this);
+						isSsidHidden, MainActivity.this);
 			}
 			IEsptouchResult result = mEsptouchTask.executeForResult();
 			return result;
@@ -227,7 +254,7 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
 
 		@Override
 		protected void onPreExecute() {
-			mProgressDialog = new ProgressDialog(EsptouchDemoActivity.this);
+			mProgressDialog = new ProgressDialog(MainActivity.this);
 			mProgressDialog
 					.setMessage("Esptouch is configuring, please wait for a moment...");
 			mProgressDialog.setCanceledOnTouchOutside(false);
@@ -270,7 +297,7 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
 				}
 				taskResultCount = Integer.parseInt(taskResultCountStr);
 				mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword,
-						isSsidHidden, EsptouchDemoActivity.this);
+						isSsidHidden, MainActivity.this);
 			}
 			List<IEsptouchResult> resultList = mEsptouchTask.executeForResults(taskResultCount);
 			return resultList;
