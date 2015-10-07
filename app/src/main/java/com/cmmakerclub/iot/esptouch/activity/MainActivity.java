@@ -19,8 +19,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmmakerclub.iot.esptouch.EsptouchTask;
+import com.cmmakerclub.iot.esptouch.IEsptouchListener;
 import com.cmmakerclub.iot.esptouch.IEsptouchResult;
 import com.cmmakerclub.iot.esptouch.IEsptouchTask;
 import com.cmmakerclub.iot.esptouch.R;
@@ -44,11 +46,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	private EditText mEdtApPassword;
 
 	private Button mBtnConfirm;
-	
+
 	private Switch mSwitchIsSsidHidden;
 
 	private EspWifiAdminSimple mWifiAdmin;
-	
+
 	private Spinner mSpinnerTaskCount;
 
     CoordinatorLayout rootLayout;
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 //
 //		requestNewInterstitial();
 	}
-	
+
 	private void initSpinner()
 	{
 		mSpinnerTaskCount = (Spinner) findViewById(R.id.spinnerTaskResultCount);
@@ -145,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			String isSsidHiddenStr = "NO";
 			String taskResultCountStr = Integer.toString(mSpinnerTaskCount
 					.getSelectedItemPosition());
-			if (isSsidHidden) 
+			if (isSsidHidden)
 			{
 				isSsidHiddenStr = "YES";
 			}
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 					isSsidHiddenStr, taskResultCountStr);
 		}
 	}
-	
+
 	private class EsptouchAsyncTask2 extends AsyncTask<String, Void, IEsptouchResult> {
 
 		private ProgressDialog mProgressDialog;
@@ -237,8 +239,30 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			}
 		}
 	}
-	
-	
+
+
+	private void onEsptoucResultAddedPerform(final IEsptouchResult result) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				String text = result.getBssid() + " is connected to the wifi";
+				Toast.makeText(MainActivity.this, text,
+						Toast.LENGTH_LONG).show();
+			}
+
+		});
+	}
+
+	private IEsptouchListener myListener = new IEsptouchListener() {
+
+		@Override
+		public void onEsptouchResultAdded(final IEsptouchResult result) {
+			onEsptoucResultAddedPerform(result);
+		}
+	};
+
+
 	private class EsptouchAsyncTask3 extends AsyncTask<String, Void, List<IEsptouchResult>> {
 
 		private ProgressDialog mProgressDialog;
@@ -298,6 +322,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 				taskResultCount = Integer.parseInt(taskResultCountStr);
 				mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword,
 						isSsidHidden, MainActivity.this);
+				mEsptouchTask.setEsptouchListener(myListener);
+
 			}
 			List<IEsptouchResult> resultList = mEsptouchTask.executeForResults(taskResultCount);
 			return resultList;

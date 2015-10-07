@@ -1,12 +1,12 @@
 package com.cmmakerclub.iot.esptouch;
 
-import java.util.List;
-
 import android.content.Context;
 
 import com.cmmakerclub.iot.esptouch.task.EsptouchTaskParameter;
 import com.cmmakerclub.iot.esptouch.task.IEsptouchTaskParameter;
 import com.cmmakerclub.iot.esptouch.task.__EsptouchTask;
+
+import java.util.List;
 
 public class EsptouchTask implements IEsptouchTask {
 
