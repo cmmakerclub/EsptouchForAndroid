@@ -5,4 +5,5 @@ package com.cmmakerclub.iot.esptouch.helper;
  */
 public class Constants {
     public static final String APP_PREF = "CMMC_ESP8266_SMART_CONFIG";
+    public static final String WIFI_PSK = "CMMC_ESP8266_WIFI_PSK";
 }

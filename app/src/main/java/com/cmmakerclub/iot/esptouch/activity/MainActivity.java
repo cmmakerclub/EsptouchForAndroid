@@ -1,8 +1,10 @@
 package com.cmmakerclub.iot.esptouch.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -26,8 +28,13 @@ import com.cmmakerclub.iot.esptouch.IEsptouchListener;
 import com.cmmakerclub.iot.esptouch.IEsptouchResult;
 import com.cmmakerclub.iot.esptouch.IEsptouchTask;
 import com.cmmakerclub.iot.esptouch.R;
+import com.cmmakerclub.iot.esptouch.databinding.MainActivityBinding;
+import com.cmmakerclub.iot.esptouch.helper.AppHelper;
+import com.cmmakerclub.iot.esptouch.model.AccessPoint;
 import com.cmmakerclub.iot.esptouch.task.__IEsptouchTask;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
@@ -58,8 +65,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	Toolbar toolbar;
 
 	InterstitialAd mInterstitialAd;
+    private Context mContext;
+    MainActivityBinding  mBinder;
 
-	protected void initToolbar() {
+    protected void initToolbar() {
 //		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 	}
@@ -70,14 +79,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 //		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-
     }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Fabric.with(this, new Crashlytics());
-		setContentView(R.layout.main_activity);
+        mBinder = DataBindingUtil.setContentView(this, R.layout.main_activity);
+
+        mContext = this;
 
 		mWifiAdmin = new EspWifiAdminSimple(this);
 		mTvApSsid = (TextView) findViewById(R.id.tvApSssidConnected);
@@ -91,6 +101,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 		AdView mAdView = (AdView) findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder().build();
 		mAdView.loadAd(adRequest);
+
+
+
+
+//        ESPDevice.listAll(ESPDevice.class);
+//        ESPDevice espDevice = new ESPDevice();
+//        espDevice.save();
 //		mInterstitialAd = new InterstitialAd(this);
 //		mInterstitialAd.setAdUnitId(getResources().getString(R.id.));
 //
@@ -124,41 +141,45 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// display the connected ap's ssid
+		// display the connected accessPoint's ssid
 		String apSsid = mWifiAdmin.getWifiConnectedSsid();
-		if (apSsid != null) {
-			mTvApSsid.setText(apSsid);
-		} else {
-			mTvApSsid.setText("");
-		}
+        AccessPoint accessPoint = new AccessPoint();
+        accessPoint.ssid = apSsid;
+        accessPoint.password = AppHelper.getPsk(mContext, "");
+
+        mBinder.setAp(accessPoint);
+
 		// check whether the wifi is connected
 		boolean isApSsidEmpty = TextUtils.isEmpty(apSsid);
 		mBtnConfirm.setEnabled(!isApSsidEmpty);
 	}
 
-	@Override
-	public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 
-		if (v == mBtnConfirm) {
-			String apSsid = mTvApSsid.getText().toString();
-			String apPassword = mEdtApPassword.getText().toString();
-			String apBssid = mWifiAdmin.getWifiConnectedBssid();
-			Boolean isSsidHidden = mSwitchIsSsidHidden.isChecked();
-			String isSsidHiddenStr = "NO";
-			String taskResultCountStr = Integer.toString(mSpinnerTaskCount
-					.getSelectedItemPosition());
-			if (isSsidHidden)
-			{
-				isSsidHiddenStr = "YES";
-			}
-			if (__IEsptouchTask.DEBUG) {
-				Log.d(TAG, "mBtnConfirm is clicked, mEdtApSsid = " + apSsid
-						+ ", " + " mEdtApPassword = " + apPassword);
-			}
-			new EsptouchAsyncTask3().execute(apSsid, apBssid, apPassword,
-					isSsidHiddenStr, taskResultCountStr);
-		}
-	}
+        if (v == mBtnConfirm) {
+            String apSsid = mTvApSsid.getText().toString();
+            String apPassword = mEdtApPassword.getText().toString();
+            String apBssid = mWifiAdmin.getWifiConnectedBssid();
+            Boolean isSsidHidden = mSwitchIsSsidHidden.isChecked();
+            String isSsidHiddenStr = "NO";
+            String taskResultCountStr = Integer.toString(mSpinnerTaskCount
+                    .getSelectedItemPosition());
+
+            AppHelper.setPsk(mContext, apPassword);
+
+            if (isSsidHidden)
+            {
+                isSsidHiddenStr = "YES";
+            }
+            if (__IEsptouchTask.DEBUG) {
+                Log.d(TAG, "mBtnConfirm is clicked, mEdtApSsid = " + apSsid
+                        + ", " + " mEdtApPassword = " + apPassword);
+            }
+            new EsptouchAsyncTask3().execute(apSsid, apBssid, apPassword,
+                    isSsidHiddenStr, taskResultCountStr);
+        }
+    }
 
 	private class EsptouchAsyncTask2 extends AsyncTask<String, Void, IEsptouchResult> {
 
@@ -233,8 +254,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 					mProgressDialog.setMessage("Esptouch success, bssid = "
 							+ result.getBssid() + ",InetAddress = "
 							+ result.getInetAddress().getHostAddress());
+                    Answers.getInstance().logCustom(new CustomEvent("ESPTOUCH success"));
 				} else {
 					mProgressDialog.setMessage("Esptouch fail");
+                    Answers.getInstance().logCustom(new CustomEvent("ESPTOUCH failure"));
 				}
 			}
 		}
@@ -247,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 			@Override
 			public void run() {
 				String text = result.getBssid() + " is connected to the wifi";
+                Answers.getInstance().logCustom(new CustomEvent("ESPTOUCH wifi connected"));
 				Toast.makeText(MainActivity.this, text,
 						Toast.LENGTH_LONG).show();
 			}
@@ -346,6 +370,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 				// executing before receiving enough results
 				if (firstResult.isSuc()) {
 					StringBuilder sb = new StringBuilder();
+                    Answers.getInstance()
+                            .logCustom(new CustomEvent("ESPTOUCH[] success")
+                                    .putCustomAttribute("SIZE", result.size()));
 					for (IEsptouchResult resultInList : result) {
 						sb.append("Esptouch success, bssid = "
 								+ resultInList.getBssid()
@@ -364,6 +391,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 					mProgressDialog.setMessage(sb.toString());
 				} else {
 					mProgressDialog.setMessage("Esptouch fail");
+                    Answers.getInstance()
+                            .logCustom(new CustomEvent("ESPTOUCH[] failure")
+                                    .putCustomAttribute("SIZE", result.size()));
 				}
 			}
 		}

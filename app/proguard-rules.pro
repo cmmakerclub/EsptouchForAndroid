@@ -18,3 +18,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keepattributes SourceFile,LineNumberTable,*Annotation*
+-keep class com.crashlytics.android.**
+#-dontwarn android.support.**
+-dontwarn com.google.android.gms.**
+
+#-keep public class com.google.android.gms.* { public *; }
+#-dontwarn com.google.android.gms.**

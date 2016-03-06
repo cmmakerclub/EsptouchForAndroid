@@ -27,6 +27,25 @@ public class AppHelper {
     }
 
 
+
+    public static boolean setPsk(Context context, String psk) {
+        SharedPreferences mSharedPref = context.getSharedPreferences(Constants.APP_PREF,
+                Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = mSharedPref.edit();
+
+        editor.putString(Constants.WIFI_PSK, psk);
+        return editor.commit();
+    }
+
+    public static String getPsk(Context context, String fallback) {
+        SharedPreferences mSharedPref = context.getSharedPreferences(Constants.APP_PREF,
+                Context.MODE_PRIVATE);
+
+
+        return mSharedPref.getString(Constants.WIFI_PSK, fallback);
+    }
+
     public static boolean setBoolean(Context context, String key, boolean value) {
         SharedPreferences mSharedPref = context.getSharedPreferences(Constants.APP_PREF,
                 Context.MODE_PRIVATE);

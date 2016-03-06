@@ -1,206 +1,207 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:background="@color/bg_app">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/rootLayout"
+
+    <data>
+        <!--<import type="com.opendream.thaispendingwatch.helper.BindingUtils" />-->
+        <variable name="ap" type="com.cmmakerclub.iot.esptouch.model.AccessPoint" />
+    </data>
+
+    <android.support.v4.widget.DrawerLayout
+
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/bg_app"
+        android:orientation="vertical"
 
-        <RelativeLayout
+        tools:context=".MainActivity">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/rootLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/logo_cmmc" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="15dp"
-                    android:textStyle="bold"
-                    android:text="ESP8266 SmartConfig"
-                    android:textSize="22sp"
-                    android:textColor="@color/text_white"
-                    android:layout_gravity="center_horizontal"
-                    />
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/logo_cmmc" />
 
                     <TextView
-                        android:id="@+id/tvApSsid"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textStyle="bold"
-                        android:text="@string/tvApSsidTitle"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="ESP8266 SmartConfig"
                         android:textColor="@color/text_white"
-                        android:layout_marginRight="10dp"/>
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvApSssidConnected"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:singleLine="true"
-                        android:paddingBottom="10dp"
-                        android:textColor="@color/text_white">
-                    </TextView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="10dp">
-
-                    <android.support.design.widget.TextInputLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="10dp">
 
-                        <EditText
-                            android:id="@+id/edtApPassword"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/tvApSsid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:text="@string/tvApSsidTitle"
+                            android:textColor="@color/text_white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvApSssidConnected"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:inputType="text"
+                            android:text="@{ap.ssid}"
+                            android:paddingBottom="10dp"
                             android:singleLine="true"
-                            android:text=""
-                            android:textColor="@color/text_white"
-                            android:hint="@string/tvPasswordTitle"
-                            tools:ignore="TextFields"
-                            >
-                        </EditText>
+                            android:textColor="@color/text_white"></TextView>
 
-                    </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/edtApPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/tvPasswordTitle"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:text="@{ap.password}"
+                                android:textColor="@color/text_white"
+                                tools:ignore="TextFields"></EditText>
+
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="@color/border_blue" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp"
+                            android:text="@string/switchIsSsidHiddenTitle"
+                            android:textColor="@color/text_white"
+                            android:textStyle="bold" />
+
+                        <Switch
+                            android:id="@+id/switchIsSsidHidden"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" />
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            app:showText="false" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="@color/border_blue"
+                        android:visibility="gone" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="10dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="10dp"
+                            android:text="@string/spinnerTaskResultCountTitle"
+                            android:textColor="@color/text_white"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/spinnerTaskResultCount"
+                            style="?android:attr/spinnerDropDownItemStyle"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true" />
+                    </RelativeLayout>
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:background="@color/border_blue" />
 
-                <RelativeLayout
+                <Button
+                    android:id="@+id/btnConfirm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/btn_blue"
+                    android:text="@string/btnConfirmTitle"
+                    android:textColor="@color/text_white" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/switchIsSsidHiddenTitle"
-                        android:textColor="@color/text_white"
-                        android:paddingRight="10dp"
-                        android:textStyle="bold"/>
-
-                    <Switch
-                        android:visibility="gone"
-                        android:id="@+id/switchIsSsidHidden"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
-                    <android.support.v7.widget.SwitchCompat
-                        android:layout_alignParentRight="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:showText="false" />
-                </RelativeLayout>
-
-                <View
-                    android:visibility="gone"
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/adView"
                     android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:background="@color/border_blue" />
-
-                <RelativeLayout
-                    android:visibility="visible"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
+                    android:layout_above="@id/btnConfirm"
+                    android:layout_centerHorizontal="true"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/spinnerTaskResultCountTitle"
-                        android:textColor="@color/text_white"
-                        android:paddingRight="10dp"
-                        android:textStyle="bold"/>
-
-                    <Spinner
-                        style="?android:attr/spinnerDropDownItemStyle"
-                        android:id="@+id/spinnerTaskResultCount"
-                        android:layout_alignParentRight="true"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content" />
-                </RelativeLayout>
-
-            </LinearLayout>
+        </android.support.design.widget.CoordinatorLayout>
 
 
-            <Button
-                android:id="@+id/btnConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/btnConfirmTitle"
-                android:background="@color/btn_blue"
-                android:textColor="@color/text_white"
-                android:layout_alignParentBottom="true" />
-
-            <com.google.android.gms.ads.AdView
-                android:layout_above="@id/btnConfirm"
-                android:id="@+id/adView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                ads:adSize="BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id">
-            </com.google.android.gms.ads.AdView>
-        </RelativeLayout>
-
-    </android.support.design.widget.CoordinatorLayout>
-
-
-
-
-
-
-
-
-</android.support.v4.widget.DrawerLayout>
+    </android.support.v4.widget.DrawerLayout>
+</layout>
